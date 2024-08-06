@@ -10,15 +10,15 @@ victory_counter = 0
 
 # Method to safely load images and catch warnings
 def safe_image_load(file, options = {})
-  puts "Loading image: #{file}"
+  # puts "Loading image: #{file}" #Uncomment for debbuging
   image = Image.new(file, **options)
-  puts "Loaded image: #{file}"
+  # puts "Loaded image: #{file}" #Uncomment for debbuging
   image
 rescue StandardError => e
-  puts "Error loading image #{file}: #{e.message}"
+  # puts "Error loading image #{file}: #{e.message}" #Uncomment for debbuging
   nil
 end
-#Method to write multiline rubbish
+#Method to write multiline text
 def multiline_text(x, y, text, options = {})
   lines = text.split("\n")
   line_height = options[:line_height] || 20  # Adjust line height as needed
@@ -30,12 +30,12 @@ end
 
 
 # Load background image & Wife
-bg = safe_image_load("assets/Classroom.jpg", width: 640, height: 480 )
-part1 = safe_image_load("assets/part1.jpg", width: 640, height: 480, z: -200)
+bg = safe_image_load("assets/Classroom.jpg", width: 640, height: 480 ) #background image for title
+part1 = safe_image_load("assets/part1.jpg", width: 640, height: 480, z: -200) 
 part2 = safe_image_load("assets/part2.jpg", width: 640, height: 480, z: -200)
 part3 = safe_image_load("assets/part3.jpg", width: 640, height: 480, z: -200)
-victory = safe_image_load("assets/You win.png", width: 640, height: 480)
-wife = safe_image_load("assets/Victory.png", x: 195, y: 40, width: 250, height: 400)
+victory = safe_image_load("assets/You win.png", width: 640, height: 480) # Image for victory screen
+wife = safe_image_load("assets/Victory.png", x: 195, y: 40, width: 250, height: 400) # Image of wife
 part1.remove
 part2.remove
 part3.remove
@@ -47,7 +47,7 @@ wife.remove
    @part3bg = false
 
 
-# Determine girl pictures, and group them into an array
+# Determine girl pictures, and group them into an array. EXPANDABLE
  girls = [
   safe_image_load("assets/Girl1.png", width: 180, height: 180),
   safe_image_load("assets/Girl2.png", width: 180, height: 180),
@@ -62,7 +62,7 @@ wife.remove
   
   girls.each { |girl| girl.remove }
 
-#Determine trap pictures, and group them into an array
+#Determine trap pictures, and group them into an array. EXPANDABLE
 
      traps = [
 	   safe_image_load("assets/Trap1.png", width: 200, height: 375),
@@ -78,7 +78,7 @@ wife.remove
 	   
 	traps.each { |trap| trap.remove}   
   
-#Determine guy pictures, and group them into an array
+#Determine guy pictures, and group them into an array. EXPANDABLE
   guys = [
     safe_image_load("assets/Guy1.png", width: 100, height: 400),
 	safe_image_load("assets/Guy2.png", width: 100, height: 400),
@@ -98,7 +98,7 @@ wife.remove
   
 # create mc voice arrays
 
-  # for guys and traps
+  # for guys and traps. EXPANDABLE
     r_guys_and_traps = [
 	  Sound.new("assets/ToGuy1.mp3"),
 	  Sound.new("assets/ToGuy2.mp3"),
@@ -110,7 +110,7 @@ wife.remove
 	  Sound.new("assets/ToGuy8.mp3"),
 	  Sound.new("assets/ToGuy9.mp3"),
 	  Sound.new("assets/ToGuy10.mp3")].compact
-	# From guys and traps
+	# From guys and traps. EXPANDABLE
 	 f_guys_and_traps = [
       Sound.new("assets/Gent1.mp3"),
 	  Sound.new("assets/Gent2.mp3"),
@@ -248,10 +248,10 @@ on :key_down do |event|
 	 #if you're in the game over screen
 	  if $lose_screen 
 	    if event.key == "space"
-            puts "Space pressed"  # Debugging: state check
+            # puts "Space pressed"  # Debugging: state check
             $lose_screen = false
             @virgin_playing = false
-            puts "Starting lvl1 "  # Debugging: action timing
+            # puts "Starting lvl1 "  # Debugging: action timing
             lose_text.remove
 			lose_text2.remove
             game_over.fadeout(1000)
@@ -267,14 +267,14 @@ on :key_down do |event|
 			missclicks = 0
           elsif event.key == "p"
             $lose_screen = false
-            puts "P pressed"  # Debugging: state check
+            # puts "P pressed"  # Debugging: state check
             game_over.fadeout(1000)
             @game_over_mus = false
 			@part2bg = false
 			@part3bg = false
             victory_counter = 0
             displayed_images = []
-            puts "Starting virgin"  # Debugging: action timing
+            # puts "Starting virgin"  # Debugging: action timing
             virgin.play
             @virgin_playing = true
             lose_text.remove
@@ -290,14 +290,14 @@ on :key_down do |event|
 		
 	#else	
    else
-      puts "Key pressed: #{event.key}"  # Debugging: print the key pressed
+      # puts "Key pressed: #{event.key}"  # Debugging: print the key pressed
       if event.key == "space" && @virgin_playing
-        puts "Space pressed and virgin is playing"  # Debugging: state check
+        # puts "Space pressed and virgin is playing"  # Debugging: state check
         intro.remove
 		controls.each do |text| text.remove end
         virgin.fadeout(1000)
         @virgin_playing = false
-        puts "Starting lvl1 after virgin fadeout"  # Debugging: action timing
+        # puts "Starting lvl1 after virgin fadeout"  # Debugging: action timing
         lvl1.play
         @lvl1_playing = true
         bg.remove
@@ -309,11 +309,11 @@ on :key_down do |event|
 		displayed_images = [].compact
 		missclicks = 0
       elsif event.key == "p" && @lvl1_playing
-        puts "P pressed and lvl1 is playing"  # Debugging: state check
+        # puts "P pressed and lvl1 is playing"  # Debugging: state check
         lvl1.fadeout(1000)
         @lvl1_playing = false
         victory_counter = 0
-        puts "Starting virgin after lvl1 fadeout"  # Debugging: action timing
+        # puts "Starting virgin after lvl1 fadeout"  # Debugging: action timing
         everyone.each(&:remove)
         virgin.play
         @virgin_playing = true
@@ -349,29 +349,29 @@ on :mouse_down do |event|
     if image.contains? event.x, event.y
       if event.button == :left
         if girls.include?(image)
-          puts "Removing a girl image with left click"
+         # puts "Removing a girl image with left click" #Uncomment for debbuging
 		  r_girls.sample.play
           image.remove
 		  f_girls.sample.play
           displayed_images.delete(image)
           victory_counter += 1
-          puts "You've clicked #{victory_counter} pics, only #{70 - victory_counter} to go"
+       #   puts "You've clicked #{victory_counter} pics, only #{70 - victory_counter} to go" #Uncomment for debbuging
         else
-          puts "You should right click guys!"
+        #  puts "You should right click guys!" #Uncomment for debbuging
 		  error_sound.play
 		  missclicks +=1
         end
       elsif event.button == :right
         if guys.include?(image) || traps.include?(image)
-          puts "Removing a guy/trap image with right click"
+         # puts "Removing a guy/trap image with right click" #Uncomment for debbuging
 		  r_guys_and_traps.sample.play
           image.remove
 		  f_guys_and_traps.sample.play
           displayed_images.delete(image)
           victory_counter += 1
-          puts "You've clicked #{victory_counter} pics, only #{70 - victory_counter} to go"
+          # puts "You've clicked #{victory_counter} pics, only #{70 - victory_counter} to go" #Uncomment for debbuging
         else
-          puts "You should left click girls!"
+        #  puts "You should left click girls!" #Uncomment for debbuging
 		  missclicks +=1
 		  error_sound.play
         end
@@ -380,7 +380,7 @@ on :mouse_down do |event|
       break
     end
   end
-  puts "You're clicking absolutely nothing, moron" unless clicked_on_image || !$level_1_start
+  # puts "You're clicking absolutely nothing" unless clicked_on_image || !$level_1_start #Uncomment for debbuging
   huh.play unless clicked_on_image || !$level_1_start
 end
 end
@@ -402,7 +402,7 @@ update do
       x: 500
     )
 
-    if victory_counter < 60
+    if victory_counter < 60 # Number that equals the maximum amount of enemies that need to be clicked to win.
 	   if victory_counter == 20 && !@part2bg
 	      part1.remove
 		  part2.add
@@ -416,9 +416,9 @@ update do
 	   end
       if Time.now >= @next_image_time
         selected_image = everyone.sample
-		puts "the image selected is #{selected_image}"
+		# puts "the image selected is #{selected_image}" #Uncomment for debbuging
         if selected_image && !displayed_images.include?(selected_image)
-		  puts "the image should be different"
+		 # puts "the image should be different" #Uncomment for debbuging
           # Randomize the image location
           random_x = rand(0..(WINDOW_WIDTH - selected_image.width))
           random_y = rand(0..(WINDOW_HEIGHT - selected_image.height))
@@ -426,10 +426,10 @@ update do
           selected_image.x = random_x
           selected_image.y = random_y
 
-          puts "Showing image: #{selected_image.path}"  # Debugging: log the image path
+          # puts "Showing image: #{selected_image.path}"  # Debugging: log the image path
           selected_image.add
           displayed_images << selected_image
-		   if displayed_images.count > 3 || missclicks == 3
+		   if displayed_images.count > 3 || missclicks == 3 # Game over conditions - first one checks how many images are on screen and the second how many missclicks you've done
 		     victory_counter = 0
 			 part1.remove
 			 part2.remove
@@ -450,7 +450,7 @@ update do
 		     $level_1_start = false
 			 end
         else
-          puts "No image to show"  # Debugging: in case the sample returns nil
+         # puts "No image to show"  # Debugging: in case the sample returns nil
 		  @next_image_time = 0
         end
         @next_image_time = Time.now + 1 + rand(3)  # Set the time for the next image
@@ -478,7 +478,7 @@ update do
 	   @youdidit = true
 	end
     if @peter_playing
-      puts "Starting peter music"
+     # puts "Starting peter music" #Uncomment for debbuging
       peter.play
       @peter_playing = false
     end
